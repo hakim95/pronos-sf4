@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -60,6 +62,16 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Pronostics", mappedBy="pronouser")
+     */
+    private $pronostics;
+
+    public function __construct()
+    {
+        $this->pronostics = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -143,6 +155,37 @@ class User implements UserInterface, \Serializable
     public function unserialize($serialized)
     {
         [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @return Collection|Pronostics[]
+     */
+    public function getPronostics(): Collection
+    {
+        return $this->pronostics;
+    }
+
+    public function addPronostic(Pronostics $pronostic): self
+    {
+        if (!$this->pronostics->contains($pronostic)) {
+            $this->pronostics[] = $pronostic;
+            $pronostic->setPronouser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePronostic(Pronostics $pronostic): self
+    {
+        if ($this->pronostics->contains($pronostic)) {
+            $this->pronostics->removeElement($pronostic);
+            // set the owning side to null (unless already changed)
+            if ($pronostic->getPronouser() === $this) {
+                $pronostic->setPronouser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

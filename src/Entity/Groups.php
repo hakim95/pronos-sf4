@@ -28,9 +28,15 @@ class Groups
      */
     private $teams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Matchs", mappedBy="groupstage")
+     */
+    private $matchs;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->matchs = new ArrayCollection();
     }
 
     public function getId()
@@ -75,6 +81,37 @@ class Groups
             // set the owning side to null (unless already changed)
             if ($team->getGroupstage() === $this) {
                 $team->setGroupstage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Matchs[]
+     */
+    public function getMatchs(): Collection
+    {
+        return $this->matchs;
+    }
+
+    public function addMatch(Matchs $match): self
+    {
+        if (!$this->matchs->contains($match)) {
+            $this->matchs[] = $match;
+            $match->setGroupstage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatch(Matchs $match): self
+    {
+        if ($this->matchs->contains($match)) {
+            $this->matchs->removeElement($match);
+            // set the owning side to null (unless already changed)
+            if ($match->getGroupstage() === $this) {
+                $match->setGroupstage(null);
             }
         }
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Matchs;
+use App\Entity\Groups;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,24 @@ class MatchsRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Matchs::class);
+    }
+
+    public function findMatchesByGroupstages()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery("SELECT g.name as groupname, m.name as matchname, m.results as results from App\Entity\Groups g, App\Entity\Matchs m where g.id = m.groupstage and g.id in (select gr.id from App\Entity\Groups gr)");
+
+        return $query->execute();
+    }
+
+    public function findActiveMatches()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery("SELECT m.id, m.name FROM App\Entity\Matchs m WHERE m.results = ''");
+
+        return $query->execute();
     }
 
 //    /**

@@ -1,0 +1,35 @@
+{% extends 'structure.html.twig' %}
+
+{% block content %}
+	<ul class="nav nav-tabs">
+		<li class="nav-item">
+			<a id="groupe-tab" class="nav-link active" href="#" data-toggle="tab" role="tab" aria-controls="groupes" aria-selected="true">Phase de groupes</a>
+		</li>
+		<li class="nav-item">
+			<a id="huitieme-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="huitiemes" aria-selected="false">Huitièmes</a>
+		</li>
+		<li class="nav-item">
+			<a id="quart-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="quarts" aria-selected="false">Quarts</a>
+		</li>
+		<li class="nav-item">
+			<a id="demi-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="demis" aria-selected="false">Demis</a>
+		</li>
+		<li class="nav-item">
+			<a id="finale-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="finale" aria-selected="false">Finale</a>
+		</li>
+	</ul>
+	<div class="tab-content" id="pronosTabContent">
+		<div class="tab-pane fade show active" id="groupes" role="tabpanel" aria-labelledby="groupe-tab">
+			<div class="row">
+				{% for group, match in matchs %}
+					<div class="col-3">
+						<h3 class="text-center">{{ group }}</h3>
+						{% for meeting in match %}
+							<p class="text-center">{{ meeting[0] }} <br> {{ meeting[1] }}</p>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

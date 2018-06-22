@@ -43,9 +43,26 @@ class Matchs
      */
     private $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Groups", inversedBy="matchs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $groupstage;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $results;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Pronostics", mappedBy="contest")
+     */
+    private $pronostics;
+
     public function __construct()
     {
         $this->team = new ArrayCollection();
+        $this->pronostics = new ArrayCollection();
     }
 
     public function getId()
@@ -123,6 +140,61 @@ class Matchs
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getGroupstage(): ?Groups
+    {
+        return $this->groupstage;
+    }
+
+    public function setGroupstage(?Groups $groupstage): self
+    {
+        $this->groupstage = $groupstage;
+
+        return $this;
+    }
+
+    public function getResults(): ?string
+    {
+        return $this->results;
+    }
+
+    public function setResults(string $results): self
+    {
+        $this->results = $results;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pronostics[]
+     */
+    public function getPronostics(): Collection
+    {
+        return $this->pronostics;
+    }
+
+    public function addPronostic(Pronostics $pronostic): self
+    {
+        if (!$this->pronostics->contains($pronostic)) {
+            $this->pronostics[] = $pronostic;
+            $pronostic->setContest($this);
+        }
+
+        return $this;
+    }
+
+    public function removePronostic(Pronostics $pronostic): self
+    {
+        if ($this->pronostics->contains($pronostic)) {
+            $this->pronostics->removeElement($pronostic);
+            // set the owning side to null (unless already changed)
+            if ($pronostic->getContest() === $this) {
+                $pronostic->setContest(null);
+            }
+        }
 
         return $this;
     }

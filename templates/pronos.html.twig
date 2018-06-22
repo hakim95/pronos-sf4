@@ -1,28 +1,34 @@
 {% extends 'structure.html.twig' %}
 
 {% block content %}
-	<ul class="nav nav-tabs">
-		<li class="nav-item">
-			<a id="groupe-tab" class="nav-link active" href="#" data-toggle="tab" role="tab" aria-controls="groupes" aria-selected="true">Phase de groupes</a>
-		</li>
-		<li class="nav-item">
-			<a id="huitieme-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="huitiemes" aria-selected="false">Huitièmes</a>
-		</li>
-		<li class="nav-item">
-			<a id="quart-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="quarts" aria-selected="false">Quarts</a>
-		</li>
-		<li class="nav-item">
-			<a id="demi-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="demis" aria-selected="false">Demis</a>
-		</li>
-		<li class="nav-item">
-			<a id="finale-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="finale" aria-selected="false">Finale</a>
-		</li>
-	</ul>
-	<div class="tab-content" id="pronosTabContent">
-		<div class="tab-pane fade show active" id="groupes" role="tabpanel" aria-labelledby="groupe-tab">
-			{% for match in matchs %}
-				<p class="text-center">{{ match.name }}</p>
-			{% endfor %}
+	{% for messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+		<table class="table table-condensed table-bordered">
+			<thead>
+				<tr>
+					<th>Match</th>
+					<th>Pronostic</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for prono in myPronos %}
+					<tr>
+						<td>{{ prono.contest.name }}</td>
+						<td>{{ prono.score }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="form-signin">
+			{{ form_start(form) }}
+				{{ form_row(form.name) }}
+				{{ form_row(form.results) }}
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Valider</button>
+			{{ form_end(form) }}
 		</div>
-	</div>
 {% endblock %}

@@ -10,8 +10,16 @@
 				<div class="col-2">
 					<ul class="nav flex-column">
 						<li class="nav-item">
-							<a href="{{ path('pronos') }}">Pronos</a>
+							<a href="{{ path('home') }}">Accueil</a>
 						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li class="nav-item">
+								<a href="{{ path('new_resultat') }}">Ajouter résultat</a>
+							</li>
+						{% endif %}	
+						<li class="nav-item">
+							<a href="{{ path('pronos') }}">Mes pronos</a>
+						</li>					
 						<li class="nav-item">
 							<a href="{{ path('logout') }}">Déconnexion</a>
 						</li>
