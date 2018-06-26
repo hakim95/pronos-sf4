@@ -8,7 +8,7 @@
 			</div>
 		{% endfor %}
 	{% endfor %}
-		<table class="table table-condensed table-bordered">
+		<table class="table table-condensed table-bordered datatables">
 			<thead>
 				<tr>
 					<th>Match</th>
@@ -24,6 +24,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		<hr>
 		<div class="form-signin">
 			{{ form_start(form) }}
 				{{ form_row(form.name) }}
