@@ -56,12 +56,12 @@ class Team
         return $this;
     }
 
-    public function getGroupstage(): ?Group
+    public function getGroupstage(): ?Groups
     {
         return $this->groupstage;
     }
 
-    public function setGroupstage(?Group $groupstage): self
+    public function setGroupstage(?Groups $groupstage): self
     {
         $this->groupstage = $groupstage;
 
@@ -76,7 +76,7 @@ class Team
         return $this->matches;
     }
 
-    public function addMatch(Match $match): self
+    public function addMatch(Matchs $match): self
     {
         if (!$this->matches->contains($match)) {
             $this->matches[] = $match;
@@ -86,7 +86,7 @@ class Team
         return $this;
     }
 
-    public function removeMatch(Match $match): self
+    public function removeMatch(Matchs $match): self
     {
         if ($this->matches->contains($match)) {
             $this->matches->removeElement($match);

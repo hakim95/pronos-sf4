@@ -6,16 +6,16 @@
 			<a id="groupe-tab" class="nav-link active" href="#" data-toggle="tab" role="tab" aria-controls="groupes" aria-selected="true">Phase de groupes</a>
 		</li>
 		<li class="nav-item">
-			<a id="huitieme-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="huitiemes" aria-selected="false">Huitièmes</a>
+			<a id="huitieme-tab" class="nav-link {% if nbhuitieme == 0 %}disabled{% endif %}" href="#" data-toggle="tab" role="tab" aria-controls="huitiemes" aria-selected="false">Huitièmes</a>
 		</li>
 		<li class="nav-item">
-			<a id="quart-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="quarts" aria-selected="false">Quarts</a>
+			<a id="quart-tab" class="nav-link {% if nbquart == 0 %}disabled{% endif %}" href="#" data-toggle="tab" role="tab" aria-controls="quarts" aria-selected="false">Quarts</a>
 		</li>
 		<li class="nav-item">
-			<a id="demi-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="demis" aria-selected="false">Demis</a>
+			<a id="demi-tab" class="nav-link {% if nbdemi == 0 %}disabled{% endif %}" href="#" data-toggle="tab" role="tab" aria-controls="demis" aria-selected="false">Demis</a>
 		</li>
 		<li class="nav-item">
-			<a id="finale-tab" class="nav-link disabled" href="#" data-toggle="tab" role="tab" aria-controls="finale" aria-selected="false">Finale</a>
+			<a id="finale-tab" class="nav-link {% if nbfinale == 0 %}disabled{% endif %}" href="#" data-toggle="tab" role="tab" aria-controls="finale" aria-selected="false">Finale</a>
 		</li>
 	</ul>
 	<div class="tab-content" id="pronosTabContent">
@@ -31,5 +31,24 @@
 				{% endfor %}
 			</div>
 		</div>
+		<div class="tab-pane fade show" id="huitiemes" role="tabpanel" aria-labelledby="huitieme-tab">
+			<div class="row"></div>
+		</div>
+		<div class="tab-pane fade show" id="quarts" role="tabpanel" aria-labelledby="huitieme-tab">
+			<div class="row"></div>
+		</div>
+		<div class="tab-pane fade show" id="demis" role="tabpanel" aria-labelledby="huitieme-tab">
+			<div class="row"></div>
+		</div>
+		<div class="tab-pane fade show" id="finale" role="tabpanel" aria-labelledby="huitieme-tab">
+			<div class="row"></div>
+		</div>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+	<script src="{{ asset('build/js/app.js') }}" type="text/javascript"></script>
 {% endblock %}

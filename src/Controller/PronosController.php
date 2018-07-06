@@ -6,24 +6,49 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Form\MatchsType;
 
 class PronosController extends Controller
 {
 	/**
-	 * @Route("/app/home", name="home")
+	 * @Route("/app/home", options={"expose"=true}, name="home")
 	 */
-	public function home()
+	public function home(Request $request)
 	{
 		$matchRepository = $this->getDoctrine()->getRepository('App\Entity\Matchs');
-		$matchs = $matchRepository->findMatchesByGroupstages();
 
-		$matchsByGroups = array();
-		foreach($matchs as $index => $value){
-			$matchsByGroups[$value['groupname']][$index] = array($value['matchname'], $value['results']); 
+		if (!$request->isXmlHttpRequest()) {
+			$matchs = $matchRepository->findMatchesByGroupstages();
+			$nbhuitieme = $matchRepository->countHuitiemeMatches();
+			$nbquart = $matchRepository->countQuartMatches();
+			$nbdemi = $matchRepository->countDemiMatches();
+			$nbfinale = $matchRepository->countFinaleMatch();	
+
+			$matchsByGroups = array();
+			foreach($matchs as $index => $value){
+				$matchsByGroups[$value['groupname']][$index] = array($value['matchname'], $value['results']); 
+			}
+			
+			return $this->render('home.html.twig', array(
+				'matchs' => $matchsByGroups,
+				'nbhuitieme' => $nbhuitieme[0]['nbhuitiemes'],
+				'nbquart' => $nbquart[0]['nbquarts'],
+				'nbdemi' => $nbdemi[0]['nbdemis'],
+				'nbfinale' => $nbfinale[0]['nbfinale'],
+			));
+		} else {
+			$step = $request->get('step');
+			$matches = $matchRepository->findMatchesBySteps($step);
+
+			$stepMatches = array();
+			foreach ($matches as $index => $match) {
+				$stepMatches['match-'.($index+1)] = array($match['matchname'], $match['results']);
+			}
+
+			dump($stepMatches);
+			return new JsonResponse(array('matches' => $stepMatches));
 		}
-		
-		return $this->render('home.html.twig', array('matchs' => $matchsByGroups));
 	}
 
 	/**
