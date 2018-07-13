@@ -23,6 +23,7 @@ class PronosController extends Controller
 			$nbhuitieme = $matchRepository->countHuitiemeMatches();
 			$nbquart = $matchRepository->countQuartMatches();
 			$nbdemi = $matchRepository->countDemiMatches();
+			$nbpetitefinale = $matchRepository->countPetiteFinaleMatch();
 			$nbfinale = $matchRepository->countFinaleMatch();	
 
 			$matchsByGroups = array();
@@ -35,6 +36,7 @@ class PronosController extends Controller
 				'nbhuitieme' => $nbhuitieme[0]['nbhuitiemes'],
 				'nbquart' => $nbquart[0]['nbquarts'],
 				'nbdemi' => $nbdemi[0]['nbdemis'],
+				'nbpetitefinale' => $nbpetitefinale[0]['nbpetitefinale'],
 				'nbfinale' => $nbfinale[0]['nbfinale'],
 			));
 		} else {
@@ -45,8 +47,7 @@ class PronosController extends Controller
 			foreach ($matches as $index => $match) {
 				$stepMatches['match-'.($index+1)] = array($match['matchname'], $match['results']);
 			}
-
-			dump($stepMatches);
+dump($matches);
 			return new JsonResponse(array('matches' => $stepMatches));
 		}
 	}

@@ -65,6 +65,15 @@ class MatchsRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function countPetiteFinaleMatch()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery("SELECT count(m.id) as nbpetitefinale FROM App\Entity\Matchs m WHERE m.step = 'petite-finale'");
+
+        return $query->execute();
+    }
+
     public function countFinaleMatch()
     {
         $entityManager = $this->getEntityManager();
