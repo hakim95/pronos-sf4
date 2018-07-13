@@ -47,7 +47,7 @@ class PronosController extends Controller
 			foreach ($matches as $index => $match) {
 				$stepMatches['match-'.($index+1)] = array($match['matchname'], $match['results']);
 			}
-dump($matches);
+
 			return new JsonResponse(array('matches' => $stepMatches));
 		}
 	}
