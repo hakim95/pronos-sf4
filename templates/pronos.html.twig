@@ -26,12 +26,14 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		<hr>
-		<div class="form-signin">
-			{{ form_start(form) }}
-				{{ form_row(form.name) }}
-				{{ form_row(form.results) }}
-				<button type="submit" class="btn btn-primary btn-lg btn-block">Valider</button>
-			{{ form_end(form) }}
-		</div>
+		{% if nbActiveMatches > 0 %}
+			<hr>
+			<div class="form-signin">
+				{{ form_start(form) }}
+					{{ form_row(form.name) }}
+					{{ form_row(form.results) }}
+					<button type="submit" class="btn btn-primary btn-lg btn-block">Valider</button>
+				{{ form_end(form) }}
+			</div>
+		{% endif %}
 {% endblock %}

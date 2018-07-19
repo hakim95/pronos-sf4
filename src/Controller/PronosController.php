@@ -126,6 +126,6 @@ class PronosController extends Controller
 			return $this->redirectToRoute('pronos');
 		}
 
-		return $this->render('pronos.html.twig', array('form' => $form->createView(), 'myPronos' => $myPronos));
+		return $this->render('pronos.html.twig', array('form' => $form->createView(), 'myPronos' => $myPronos, 'nbActiveMatches' => count($activeMatches)));
 	}
 }
